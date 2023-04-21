@@ -10,7 +10,7 @@ current_keys_pressed = []
 break_flag = False
 
 if not os.path.exists(output_directory):
-	os.makedir(output_directory)
+	os.makedirs(output_directory)
 
 def save_data(frame, img_id):
     filename = f'{img_id}_{"_".join(current_keys_pressed)}.jpg'
@@ -30,7 +30,7 @@ def on_key_release(key):
 		current_keys_pressed.remove(key.name)
 
 keyboard.on_press(on_key_press)
-keyboard.on_release(on_ley_release)
+keyboard.on_release(on_key_release)
 
 cap = cv2.VideoCapture(0)
 capture_rate_hz = 50 #in hZ
@@ -40,19 +40,12 @@ while True:
 	if break_flag:
 		break
 
-	start_time = time.time()
-
-    ret, frame = cap.read()
-    cv2.imshow('frame', frame)
+	ret, frame = cap.read()
+	cv2.imshow('frame', frame)
 
 	save_data(frame, image_count)
 	
-	iteration_duration = time.time() - start_time
-	remaining_time = (1.0 / capture_rate_hz) - iteration_duration
-
-	if remaining_time > 0:
-		time.sleep(remaining_time)
-	
+	cv2.waitKey(20)
 	image_count += 1
 	
 cap.release()
