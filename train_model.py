@@ -47,6 +47,7 @@ def main():
     def build_model(input_size):
         out_model = Sequential()
         out_model.add(Input(shape=(input_size,)))
+        out_model.add(Flatten())
         out_model.add(Dense(256, activation='relu'))
         out_model.add(Dense(128, activation='relu'))
         out_model.add(Dense(64, activation='relu'))
